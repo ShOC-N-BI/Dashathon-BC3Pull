@@ -1,0 +1,4 @@
+pandas
+asyncpg
+sqlalchemy
+pymap3d

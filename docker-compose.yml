@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: bc3_postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: bc3_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  notebook:
+    build: .
+    container_name: bc3_notebook
+    depends_on:
+      - postgres
+    volumes:
+      - ./notebooks:/app/notebooks
+    environment:
+      DATABASE_URL: postgresql+asyncpg://user:password@postgres:5432/bc3_db
+    tty: true
+
+volumes:
+  postgres_data:
